@@ -8,5 +8,6 @@ namespace Application.Interfaces
 {
     public interface IDateTimeService
     {
+        public DateTime NowUtc { get; }
     }
 }

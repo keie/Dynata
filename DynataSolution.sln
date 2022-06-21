@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{15F52F02-4C9F-45F4-8D37-AEFFFF3EB582}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynataApi", "DynataApi\DynataApi.csproj", "{70A69E58-6676-4310-92F5-FCE0999C1E99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{15F52F02-4C9F-45F4-8D37-AEFFFF3EB582}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15F52F02-4C9F-45F4-8D37-AEFFFF3EB582}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15F52F02-4C9F-45F4-8D37-AEFFFF3EB582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70A69E58-6676-4310-92F5-FCE0999C1E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A69E58-6676-4310-92F5-FCE0999C1E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70A69E58-6676-4310-92F5-FCE0999C1E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70A69E58-6676-4310-92F5-FCE0999C1E99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

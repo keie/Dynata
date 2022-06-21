@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "6KV02902zf4gn2S82D6mcYfX8kl4xDIJWYZrQCd6Dmw=",
+  "Source": "DynataApi",
+  "BasePath": "_content/DynataApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
