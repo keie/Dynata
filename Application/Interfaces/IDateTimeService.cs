@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Persistence
+namespace Application.Interfaces
 {
-    public class ServiceExtensions
+    public interface IDateTimeService
     {
     }
 }
