@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.DynataSystem
 {
-    public class Folder
+    public class Folder:BaseEntity
     {
-       
-        public int Id { get; set; }
         public int? FolderId { get; set; }
         public List<Folder>? SubFolders { get; set; }
         public List<FileObj>? Files { get; set; }

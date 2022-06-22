@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.DTOS
 {
-    public class FolderDto
+    public class FolderDto:BaseEntity
     {
-        public int Id { get; set; }
         public int IdFolder { get; set; }
         public List<FolderDto> SubFolders { get; set; }
         public List<FileDto> Files { get; set; }

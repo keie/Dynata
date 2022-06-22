@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Features.Folders.Commands.CreateFolderCommand;
+using AutoMapper;
 using Domain.DTOS;
 using Domain.DynataSystem;
 using System;
@@ -14,6 +15,11 @@ namespace Application.Mappings
         public DynataProfile()
         {
             CreateMap<Folder, FolderDto>();
+
+
+            #region commands
+            CreateMap<CreateFolderCommand, Folder>();
+            #endregion
         }
     }
 }

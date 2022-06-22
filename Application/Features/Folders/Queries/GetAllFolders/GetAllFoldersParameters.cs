@@ -9,5 +9,6 @@ namespace Application.Features.Folders.Queries.GetAllFolders
     public class GetAllFoldersParameters
     {
         public bool IncludeFiles { get; set; }
+        public bool JustHierarchy { get; set; }
     }
 }

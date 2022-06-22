@@ -17,6 +17,7 @@ namespace Application.Features.Folders.Queries.GetAllFolders
     public class GetAllFoldersQuery:IRequest<Response<List<FolderDto>>>
     {
         public bool IncludeFiles { get; set; }
+        public bool JustHierarchy { get; set; }
 
         public class GetAllFoldersQueryHandler : IRequestHandler<GetAllFoldersQuery, Response<List<FolderDto>>>
         {
@@ -36,7 +37,7 @@ namespace Application.Features.Folders.Queries.GetAllFolders
             {
                 try
                 {
-                    var entityList = await _repositoryAsync.ListAsync(new FolderSpecification(request.IncludeFiles));
+                    var entityList = await _repositoryAsync.ListAsync(new FolderSpecification(request.IncludeFiles,request.JustHierarchy));
                     var dtos = _mapper.Map<List<FolderDto>>(entityList);
                     return new Response<List<FolderDto>>(dtos);
 

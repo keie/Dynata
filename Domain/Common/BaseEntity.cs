@@ -8,6 +8,6 @@ namespace Domain.Common
 {
     public class BaseEntity
     {
-        public int Iddfdfdfd { get; set; } 
+        public int Id { get; set; } 
     }
 }

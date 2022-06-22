@@ -10,12 +10,12 @@ namespace Application.Specifications
 {
     public class FolderSpecification:Specification<Folder>,ISingleResultSpecification
     {
-        public FolderSpecification(bool includeSubFolders)
+        public FolderSpecification(bool includeSubFolders, bool  justHierarchy)
         {
-            if (includeSubFolders) {
-                Query.Include(x => x.SubFolders);
-            }
-            Query.Where(x => x.isSubFolder != true);
+            if (includeSubFolders) Query.Include(x => x.SubFolders);
+
+            if (justHierarchy) Query.Where(x => x.isSubFolder != true);
+
         }
     }
 }
