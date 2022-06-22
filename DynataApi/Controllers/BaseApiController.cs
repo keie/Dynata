@@ -6,7 +6,7 @@ namespace DynataApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BaseApiController:ControllerBase
+    public abstract class BaseApiController : ControllerBase
     {
         private IMediator _mediator;
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();

@@ -15,9 +15,9 @@ namespace Persistence.Context
     {
         public readonly IDateTimeService _dateTime;
 
-        public DbSet<FileObj>? File { get; set; }
+        public DbSet<FileObj>? File { get; set; } = null;
 
-        public DbSet<Folder>? Folder { get; set; }
+        public DbSet<Folder>? Folder { get; set; } = null;
 
         public ApplicationDbContext()
         {
@@ -25,11 +25,11 @@ namespace Persistence.Context
         }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
         {
-            /*ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            _dateTime = dateTime;*/
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+           
         }
 
-        /*public override Task <int> SaveChangesAsync(CancellationToken cancellationToken=new CancellationToken())
+        public override Task <int> SaveChangesAsync(CancellationToken cancellationToken=new CancellationToken())
         {
             foreach(var entry in ChangeTracker.Entries<AuditableBaseEntity>())
             {
@@ -49,11 +49,8 @@ namespace Persistence.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        }*/
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+           
         }
+        
     }
 }

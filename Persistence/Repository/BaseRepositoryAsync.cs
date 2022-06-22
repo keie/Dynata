@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repository
 {
-    public class BaseRepositoryAsync<T>:RepositoryBase<T>,IDynataRepositoryAsync<T> where T : class
+    public class BaseRepositoryAsync<T>:RepositoryBase<T>,IRepositoryAsync<T> where T : class
     {
         private readonly ApplicationDbContext dbContext;
         public BaseRepositoryAsync(ApplicationDbContext dbContext) : base(dbContext)

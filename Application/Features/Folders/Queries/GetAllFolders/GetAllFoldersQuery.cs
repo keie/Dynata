@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Specifications;
 using Application.Wrappers;
 using AutoMapper;
 using Domain.DTOS;
@@ -33,13 +34,20 @@ namespace Application.Features.Folders.Queries.GetAllFolders
 
             public async Task<Response<List<FolderDto>>> Handle(GetAllFoldersQuery request,CancellationToken cancellation)
             {
+                try
+                {
+                    var entityList = await _repositoryAsync.ListAsync(new FolderSpecification(request.IncludeFiles));
+                    var dtos = _mapper.Map<List<FolderDto>>(entityList);
+                    return new Response<List<FolderDto>>(dtos);
 
+                }catch(Exception ex)
+                {
+                    throw new Exception(ex.ToString());
+                }
+                
             }
 
         }
-
-
-
 
     }
 }

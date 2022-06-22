@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.Features.Folders.Queries.GetAllFolders;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,10 +11,10 @@ namespace DynataApi.Controllers
     [Route("[controller]")]
     public class FolderController:BaseApiController
     {
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet()]
+        public async Task<IActionResult> Get([FromQuery] GetAllFoldersParameters filter)
         {
-            return Ok("It is ok");
+            return Ok(await Mediator.Send(new GetAllFoldersQuery { IncludeFiles=filter.IncludeFiles}));
         }
     }
 }
