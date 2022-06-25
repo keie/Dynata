@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "tPqQuC+La0FsrAw37nD/uxyTZrWGmR/I33lk75CAeNhbgU19N3CiP1z7bFWBc/S4HP4BYip/rFOtscrm/uPqBw==",
+  "dgSpecHash": "qxuv8ej24w5pKR1pANu1c3f1Y3vu8+qw53e6emy4oIEzVACa3/fa+dHxXmBViukhTD6w/kuCEdYoPmQj5LKdAQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\hombr\\Desktop\\trabajo\\dynata\\DynataSolution\\DynataFront\\DynataFront.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\hombr\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\hombr\\.nuget\\packages\\fluentvalidation\\11.0.3\\fluentvalidation.11.0.3.nupkg.sha512",
     "C:\\Users\\hombr\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.0.3\\fluentvalidation.dependencyinjectionextensions.11.0.3.nupkg.sha512",
+    "C:\\Users\\hombr\\.nuget\\packages\\jquery\\3.6.0\\jquery.3.6.0.nupkg.sha512",
     "C:\\Users\\hombr\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
     "C:\\Users\\hombr\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\hombr\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\10.0.1\\mediatr.extensions.microsoft.dependencyinjection.10.0.1.nupkg.sha512",

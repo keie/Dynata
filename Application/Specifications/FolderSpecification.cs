@@ -8,13 +8,20 @@ using System.Threading.Tasks;
 
 namespace Application.Specifications
 {
+
+    
     public class FolderSpecification:Specification<Folder>,ISingleResultSpecification
     {
-        public FolderSpecification(bool includeSubFolders, bool  justHierarchy)
+   
+        public FolderSpecification(bool includeSubFolders, bool  justHierarchy,int generations)
         {
             if (includeSubFolders) Query.Include(x => x.SubFolders);
 
             if (justHierarchy) Query.Where(x => x.isSubFolder != true);
+
+            
+            
+            
 
         }
     }

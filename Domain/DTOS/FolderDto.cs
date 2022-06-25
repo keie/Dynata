@@ -9,7 +9,7 @@ namespace Domain.DTOS
 {
     public class FolderDto:BaseEntity
     {
-        public int IdFolder { get; set; }
+        public int FolderId { get; set; }
         public List<FolderDto> SubFolders { get; set; }
         public List<FileDto> Files { get; set; }
         public string? FolderName { get; set; }

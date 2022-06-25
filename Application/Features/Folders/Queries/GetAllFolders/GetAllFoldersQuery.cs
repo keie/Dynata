@@ -37,7 +37,21 @@ namespace Application.Features.Folders.Queries.GetAllFolders
             {
                 try
                 {
-                    var entityList = await _repositoryAsync.ListAsync(new FolderSpecification(request.IncludeFiles,request.JustHierarchy));
+                    var generations = await _repositoryAsync.CountAsync();
+                    var entityList = await _repositoryAsync.ListAsync();
+                    foreach(var node in entityList)
+                    {
+                        List<Folder> childs = new List<Folder>();
+                        foreach(var child in entityList)
+                        {
+                            if (node.Id == child.FolderId)
+                            {
+                                childs.Add(child);
+                            }
+                        }
+                        node.SubFolders = childs;
+                    }
+                    entityList = entityList.Where(x => (bool)x.isSubFolder==false).ToList();
                     var dtos = _mapper.Map<List<FolderDto>>(entityList);
                     return new Response<List<FolderDto>>(dtos);
 
@@ -47,6 +61,10 @@ namespace Application.Features.Folders.Queries.GetAllFolders
                 }
                 
             }
+
+           
+
+         
 
         }
 

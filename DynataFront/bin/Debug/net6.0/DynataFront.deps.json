@@ -13,7 +13,8 @@
           "FluentValidation.DependencyInjectionExtensions": "11.0.3",
           "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1",
           "Microsoft.EntityFrameworkCore": "6.0.6",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.6"
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.6",
+          "jQuery": "3.6.0"
         },
         "runtime": {
           "DynataFront.dll": {}
@@ -83,6 +84,7 @@
           }
         }
       },
+      "jQuery/3.6.0": {},
       "MediatR/10.0.1": {
         "dependencies": {
           "MediatR.Contracts": "1.0.1"
@@ -555,6 +557,13 @@
       "sha512": "sha512-MLbbooikiH1QqFa9p+Fa/qPi5jUt0vzSWRjf6ERi79GKFsqjFKmgtcsZzWFSbrDUvueaDE6yyHHHvCFWlne4fw==",
       "path": "fluentvalidation.dependencyinjectionextensions/11.0.3",
       "hashPath": "fluentvalidation.dependencyinjectionextensions.11.0.3.nupkg.sha512"
+    },
+    "jQuery/3.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sSzCTDWn15waSMjDrP21jjgG1j1pwISLaKiVCClwU4XGAmuZt+FScLkdyRvh9ppoIxAW/tJtJBYei+3CAwFQ7g==",
+      "path": "jquery/3.6.0",
+      "hashPath": "jquery.3.6.0.nupkg.sha512"
     },
     "MediatR/10.0.1": {
       "type": "package",

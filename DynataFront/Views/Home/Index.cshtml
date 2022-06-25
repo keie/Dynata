@@ -4,5 +4,132 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    
 </div>
+
+<div id="sideBar">
+       <div id="folders">
+       </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    
+    LoadData()
+    var strNode=`<div id=valueId onclick="collapseAction(this.id,event)" class="node"><div class='attributes'>  <div><img src='https://cdn-icons.flaticon.com/png/512/4315/premium/4315609.png?token=exp=1655948169~hmac=28d279f4c41d457fc57419801183ddd6' width='15' height='15'/></div><div style='padding-left:0.5vw'><img src='https://cdn-icons-png.flaticon.com/512/716/716784.png' width='20' height='20'/></div><div><p style='padding-left:0.5vw'>valueFolderName</p></div>  </div><div id='valueId_subfolders' class='subfolders' style="display:none"></div></div>`
+
+    function GetChild(arr,dadId,idFather){
+         arr.forEach(function callback(currentValue1, index, array) {
+            var child= strNode.replace('valueId',`folder_${currentValue1.id}`).replace('valueFolderName',currentValue1.folderName).replace('valueId_subfolders',`${currentValue1.id}_subfolders`)
+            if(currentValue1.folderId==idFather){
+                $(`#${dadId} #${idFather}_subfolders`).append(child)
+            }
+            if(currentValue1.subFolders.length>0){
+                GetChild(currentValue1.subFolders,`folder_${currentValue1.id}`,currentValue1.id)
+             }
+        })
+    }
+
+    function GetDads(arr){
+         arr.forEach(function callback(currentValue1, index, array) {
+            var node= strNode.replace('valueId',`folder_${currentValue1.id}`).replace('valueFolderName',currentValue1.folderName).replace('valueId_subfolders',`${currentValue1.id}_subfolders`)
+            $( "#folders" ).append(node)
+            if(currentValue1.subFolders?.length>0){
+                GetChild(currentValue1.subFolders,`folder_${currentValue1.id}`,currentValue1.id)
+            }
+         })
+   }
+
+
+
+    function LoadData() {
+                var obj = new Object();
+                obj.IncludeFiles=true;
+                obj.JustHierarchy=true;
+                var jsonString= JSON.stringify(obj);
+                console.log(jsonString)
+                $.ajax({
+                    type: "GET",                                              
+                    url: 'https://localhost:44384/folder?IncludeFiles=true&JustHierarchy=true',                    
+                    contentType: "application/json; charset=utf-8",            
+                    async: true,                                               
+                    success: function (result) {                            
+                        GetDads(result.data);
+                        
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { 
+                        var error = eval("(" + XMLHttpRequest.responseText + ")");
+                        alert(error.Message);
+                    }
+                });
+            }
+
+
+
+         
+
+
+   
+    var hcolor='#a9cbeb'
+    
+    function collapseAction(id,e){
+        
+        e.stopPropagation();
+        var getId=id.split('_')[1]
+        
+        $(`.node`).css('background-color', hcolor);
+        $(`#${id}`).css('background-color', 'yellow');
+        var n=$(`#${id} #${getId}_subfolders`)
+        
+        $(n).css('background-color', hcolor);
+        if($(n).css('display')=='none'){
+            console.log($(n).css('display'))
+            $(n).show()
+            return false;
+        }
+       else if($(n).css('display')=='block'){
+           $(n).hide()
+           return false;
+       }
+
+     return false;
+    }
+
+
+</script>
+
+
+
+<style>
+
+
+   
+
+    #sideBar{
+        background-color:#a9cbeb;
+        width:60%!important;
+        height:60vh;
+        border-radius:10px;
+    }
+
+    #folders{
+        padding-top:5vh;
+        display:block;
+        width: 40%;
+    }
+
+    .container{
+        margin-left:0px!important;
+        padding-left:0px!important;
+    }
+    .attributes>div{
+        display: inline-flex;
+        color:#ffffff;
+        font-weight:bold;
+    }
+
+    .subfolders{
+        padding-left:5vw;
+    }
+</style>

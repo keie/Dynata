@@ -36,6 +36,19 @@ namespace DynataApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DynataApi", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "CORS",
+                                  builder =>
+                                  {
+                                      builder
+                                        .AllowAnyOrigin()// specifying the allowed origin
+                                        .AllowAnyMethod()// defining the allowed HTTP method
+                                        .AllowAnyHeader(); // allowing any header to be sent
+                                  });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +61,12 @@ namespace DynataApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DynataApi v1"));
             }
 
+           
+
+
+
             app.UseHttpsRedirection();
+            app.UseCors("CORS");
 
             app.UseRouting();
 

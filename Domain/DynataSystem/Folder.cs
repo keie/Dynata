@@ -17,5 +17,6 @@ namespace Domain.DynataSystem
         public bool? isSubFolder { get; set; }
 
 
+
     }
 }

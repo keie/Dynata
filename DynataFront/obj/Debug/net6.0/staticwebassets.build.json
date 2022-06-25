@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MnSW3nnpNruAZRmXBs4IsCvXfVQTeH7X/prp8Ag6cp8=",
+  "Hash": "YZYgeKX1tQZeE7wT+Ef3PkXdiVLuLWyBN7xBU1HcuUw=",
   "Source": "DynataFront",
   "BasePath": "_content/DynataFront",
   "Mode": "Default",
@@ -83,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\hombr\\Desktop\\trabajo\\dynata\\DynataSolution\\DynataFront\\wwwroot\\img\\folder.png",
+      "SourceId": "DynataFront",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hombr\\Desktop\\trabajo\\dynata\\DynataSolution\\DynataFront\\wwwroot\\",
+      "BasePath": "_content/DynataFront",
+      "RelativePath": "img/folder.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\folder.png"
     },
     {
       "Identity": "C:\\Users\\hombr\\Desktop\\trabajo\\dynata\\DynataSolution\\DynataFront\\wwwroot\\js\\site.js",
