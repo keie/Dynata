@@ -15,6 +15,8 @@ namespace Application.Features.Folders.Commands.CreateFolderCommand
     {
         public string? FolderName { get; set; }
         public int? FolderId { get; set; }
+
+        public bool? isSubFolder { get; set; }
     }
 
     public class CreateFolderCommandHandler: IRequestHandler<CreateFolderCommand, Response<int>>

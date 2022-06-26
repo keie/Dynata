@@ -73,6 +73,14 @@
               "target": "Package",
               "version": "[6.0.6, )"
             },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.3.0, )"
+            },
             "jQuery": {
               "target": "Package",
               "version": "[3.6.0, )"
