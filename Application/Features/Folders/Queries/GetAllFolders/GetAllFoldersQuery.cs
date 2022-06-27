@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,7 @@ namespace Application.Features.Folders.Queries.GetAllFolders
             private readonly IRepositoryAsync<Folder> _repositoryAsync;
             private readonly IMapper _mapper;
             private readonly ILogger<GetAllFoldersQuery> _logger;
+            DirectorySecurity securityRules = new DirectorySecurity();
 
             public string Path = "D:/dynata";
             public GetAllFoldersQueryHandler(IRepositoryAsync<Folder> repositoryAsync,IMapper mapper,ILogger<GetAllFoldersQuery> logger)
@@ -100,7 +102,10 @@ namespace Application.Features.Folders.Queries.GetAllFolders
                     Console.WriteLine("That path exists already.");
                     return;
                 }
+               
+                securityRules.AddAccessRule(new FileSystemAccessRule("Users", FileSystemRights.Modify, AccessControlType.Allow));
                 DirectoryInfo di = Directory.CreateDirectory(path);
+                di.SetAccessControl(securityRules);
                 
 
             }

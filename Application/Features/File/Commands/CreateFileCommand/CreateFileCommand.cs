@@ -17,7 +17,7 @@ namespace Application.Features.File.Commands.CreateFileCommand
     {
         public string? FileName { get; set; }
         public int? FolderId { get; set; }
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
     }
 
     public class CreateFileCommandHandler : IRequestHandler<CreateFileCommand, Response<int>>
@@ -42,7 +42,7 @@ namespace Application.Features.File.Commands.CreateFileCommand
                 request.FileName = request.File.FileName;
                 var folder= await _repositoryFolderAsync.GetByIdAsync(request.FolderId);
                 var path =$"{folder.Url}/{folder.FolderName}";
-                UploadFile(request,path);
+                dto.Url=UploadFile(request,path);
                 dto.FileName = request.FileName;
                 dto.FolderId = request.FolderId;
                 dto.Size = request.File.Length;
@@ -55,9 +55,10 @@ namespace Application.Features.File.Commands.CreateFileCommand
             }
         }
 
-        public void UploadFile(CreateFileCommand request,string path)
+        public string UploadFile(CreateFileCommand request,string path)
         {
             request.File.CopyTo(new FileStream($"{path}/{request.FileName}", FileMode.Create));
+            return $"{path}/{request.FileName}";
         }
     }
 }

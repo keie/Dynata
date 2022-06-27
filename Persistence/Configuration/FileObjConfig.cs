@@ -19,6 +19,7 @@ namespace Persistence.Configuration
             entity.Property(x => x.FileName).HasColumnName("fileName")
                 .HasMaxLength(30);
             entity.Property(x => x.Size).HasColumnName("size");
+            entity.Property(x => x.Url).HasColumnName("url");
         }
     }
 }

@@ -6,21 +6,18 @@
     <h1 class="display-4">Welcome</h1>
     
 </div>
-
-<div style="display:flex">
-    <div id="sideBar">
-        <div id="folders">
-        </div>  
-    </div>
-    <div id="otherSideBar">
+<div>
+    <div style="display:block">
+    <div  style="display:flex">
+        <div id="otherSideBar">
         <div>
-            <div class="divIcon tooltipx"   >
+            <div class="divIcon tooltipx"   onclick="openForm('upload')">
                 <img src='https://cdn-icons-png.flaticon.com/512/892/892311.png' height=40 width=40/>
                 <span class="tooltiptext">Upload folder/files</span>
             </div>
         </div>
         <div>
-            <div class="divIcon tooltipx"  onclick="openForm()">
+            <div class="divIcon tooltipx"  onclick="openForm('create')">
                 <img src='https://cdn-icons.flaticon.com/png/512/4315/premium/4315609.png?token=exp=1656191132~hmac=2cfa1d643fadb8e030eb437062238937' height=40 width=40/>
                 <span class="tooltiptext">Add folder</span>
             </div>
@@ -37,43 +34,70 @@
                 <span class="tooltiptext">Delete it</span>
             </div>
         </div>
-        
-
     </div>
+    <div id="sideBar">
+        <div id="folders">
+        </div>  
+    </div>
+    </div> 
+    <div id="filesBackground">
+        <div id="files">
+           
+        </div>
+    </div>
+    
 </div>
+    
+</div>
+
+   
+
 
 
 
 
 <div class="form-popup" id="myForm">
   <div  class="form-container">
-    <div style="display:flex">
+    
+    <div class="modalCreation" style="display:none">
+        <div style="display:flex">
         <h1>Folder Creation</h1>
         <button type="button" class="btnClose" onclick="closeForm()" style="width:2vw">X</button>
     </div>
-      
-    <div >
-      <p>Please select the folder Type:</p>
-      <input type="radio" id="mainFolder" name="fav_language" value="Main Folder" checked="checked" onchange="radioChange('Main Folder')">
-      <label for="mainFolder">Main Folder</label><br>
-      <input type="radio" id="subFolder" name="fav_language" value="Sub Folder" onchange="radioChange('Sub Folder')">
-      <label for="subFolder">Sub Folder</label><br>
-      
-      
-  <br><br>
-
-
-      <br>  
+        <div >
+          <p>Please select the folder Type:</p>
+          <input type="radio" id="mainFolder" name="fav_language" value="Main Folder" checked="checked" onchange="radioChange('Main Folder')">
+          <label for="mainFolder">Main Folder</label><br>
+          <input type="radio" id="subFolder" name="fav_language" value="Sub Folder" onchange="radioChange('Sub Folder')">
+          <label for="subFolder">Sub Folder</label><br>
+          <br><br><br>  
+        </div>
+        <label for="folders"><b>Folders</b></label>
+        <select name="subFolders" class="dropDownFolders" disabled="true" >
+            <option value="No" selected="selected">No apply</option>
+        </select><br />
+        <label for="newFolder"><b>Folder Name</b></label>
+        <input type="text" placeholder="Enter Folder Name" id="txtName" name="newFolder" required>
+        <button  class="btn" onclick="createFolder()">Create</button>
     </div>
-    <label for="folders"><b>Folders</b></label>
-    <select name="subFolders" id="dropDownFolders" disabled="true" >
-        <option value="No" selected="selected">No apply</option>
-      </select><br />
-    <label for="newFolder"><b>Folder Name</b></label>
-    <input type="text" placeholder="Enter Folder Name" id="txtName" name="newFolder" required>
-    <button  class="btn" onclick="createFolder()">Create</button>
+    <div class="modalUploadFile" style="display:none">
+        <div style="display:flex">
+            <h1>Upload Files</h1>
+            <button type="button" class="btnClose" onclick="closeForm()" style="width:2vw">X</button>
+        </div>
+        <div >
+            <label for="folders"><b>Folders</b></label>
+            <select name="subFolders" class="dropDownFoldersToFile">
+                <option value="No" selected="selected">No apply</option>
+            </select><br /><br />
+            <label for="myfile">Select a file:</label>
+            <input type="file" multiple id="filetToUpload" name="myfile" />
+            <br /><br />
+            <button  class="btn" onclick="UploadFile()">Upload</button>
+        </div>
+    </div>
+   </div>
     
-  </div>
 </div>
 
 
@@ -82,15 +106,53 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 
-    
+    function UploadFile(){
+        var folderId=$( ".dropDownFoldersToFile option:selected").val();
+        alert(folderId)
+        let formData = new FormData();
+        formData.append("file", $('#filetToUpload')[0].files[0]);
+        $.ajax({
+            type: "POST",                                              
+            url: `https://localhost:44384/file?FolderId=${folderId}`,                    
+            processData: false,
+            contentType: false,          
+            data:formData,
+            async: true,                                                  
+            success: function (result) {                            
+                alert("File created sucessfully")
+                LoadData()
+                        
+             },
+           error: function (XMLHttpRequest, textStatus, errorThrown) { 
+            var error = eval("(" + XMLHttpRequest.responseText + ")");
+                        alert(error.Message);
+                    }
+                });
+
+    }
 
 
-    function openForm() {
-        document.getElementById("myForm").style.display = "block";
+    function openForm(value) {
+        if(value=='create'){
+            document.getElementById("myForm").style.display = "block";
+            $('.modalCreation').css('display','block')
+            
+        }
+        if(value=='upload'){
+            document.getElementById("myForm").style.display = "block";
+            $('.modalUploadFile').css('display','block')
+            
+        }
+        
     }
 
     function closeForm() {
+        $('.modalCreation').css('display','none')
+        $('.modalUploadFile').css('display','none')
         document.getElementById("myForm").style.display = "none";
+
+
+
     }
     
     LoadData()
@@ -102,7 +164,8 @@
             var child= strNode.replace('valueId',`folder_${currentValue1.id}`).replace('valueFolderName',currentValue1.folderName).replace('valueId_subfolders',`${currentValue1.id}_subfolders`)
             
             if(currentValue1.folderId==idFather){
-                $( "#dropDownFolders" ).append(`<option value=${currentValue1.id}>${link}${currentValue1.folderName}</option>`)
+                $( ".dropDownFolders" ).append(`<option value=${currentValue1.id}>${link}${currentValue1.folderName}</option>`)
+                $( ".dropDownFoldersToFile" ).append(`<option value=${currentValue1.id}>${link}${currentValue1.folderName}</option>`)
                 $(`#${dadId} #${idFather}_subfolders`).append(child)
                 
             }
@@ -119,7 +182,8 @@
          arr.forEach(function callback(currentValue1, index, array) {
             var node= strNode.replace('valueId',`folder_${currentValue1.id}`).replace('valueFolderName',currentValue1.folderName).replace('valueId_subfolders',`${currentValue1.id}_subfolders`)
             $( "#folders" ).append(node)
-            $( "#dropDownFolders" ).append(`<option value=${currentValue1.id}>${currentValue1.folderName}</option>`)
+            $( ".dropDownFolders" ).append(`<option value=${currentValue1.id}>${currentValue1.folderName}</option>`)
+            $( ".dropDownFoldersToFile" ).append(`<option value=${currentValue1.id}>${currentValue1.folderName}</option>`)
             if(currentValue1.subFolders?.length>0){
                 GetChild(currentValue1.subFolders,`folder_${currentValue1.id}`,currentValue1.id)
             }
@@ -141,7 +205,8 @@
             async: true,                                               
             success: function (result) {           
                 $("#folders").html("")
-                $( "#dropDownFolders" ).html(`<option value="No" selected="selected">No apply</option>`)
+                $( ".dropDownFolders" ).html(`<option value="No" selected="selected">No apply</option>`)
+                 $( ".dropDownFoldersToFile" ).html(`<option value="No" selected="selected">No apply</option>`)
                 GetDads(result.data);
                         
              },
@@ -153,19 +218,81 @@
       }
 
 
-    var hcolor='#a9cbeb'
-    var selectColor='#D0D1CE'
+
+
+
+
+
+
+
+      function downloadFile(url,filename){
+            fetch(`https://localhost:44384/file/downloadFile?url=${url}`)
+              .then(resp => resp.blob())
+              .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                console.log("url",url)
+                console.log("a",a)
+                a.style.display = 'none';
+                a.href = url;
+                // the filename you want
+                a.download = `${filename}`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                alert('your file has downloaded!'); // or you know, something with better UX...
+              })
+        .catch(() => alert('oh no!'));
+
+      }
+
+      function BuildFilesByFolder(arr){
+          arr.forEach(function callback(currentValue, index, array) {
+              
+            $( "#files" ).append( `<div class='file' style='display:flex'><div><img src='https://cdn-icons-png.flaticon.com/512/1091/1091669.png' widt='25' height='25'/></div><div style='margin-left:0.5vw'>${currentValue.fileName}</div><div style='margin-left:1vw'>Size: ${currentValue.size} KB</div><div style='margin-left:2vw;display:flex' ><div ><img src='https://cdn-icons-png.flaticon.com/512/3221/3221897.png' widt='25' height='20'/></div><div onclick="downloadFile('${currentValue.url}','${currentValue.fileName}')" style='margin-left:1vw'><img src='https://cdn-icons.flaticon.com/png/512/4063/premium/4063869.png?token=exp=1656348950~hmac=516f35c16506749b59e44c42799106bc' widt='20' height='20'/></div></div></div>`)
+          })
+      }
+
+    
+
+    function LoadFilesByFolder(id){
+        var obj = new Object();
+        obj.IncludeFiles=true;
+        obj.JustHierarchy=true;
+        var jsonString= JSON.stringify(obj);
+        console.log(jsonString)
+        $.ajax({
+            type: "GET",                                              
+            url: `https://localhost:44384/file/byFolderId?FolderId=${id}`,                    
+            contentType: "application/json; charset=utf-8",            
+            async: true,                                               
+            success: function (result) {           
+                $("#files").html("")
+                BuildFilesByFolder(result.data);
+                        
+             },
+           error: function (XMLHttpRequest, textStatus, errorThrown) { 
+            var error = eval("(" + XMLHttpRequest.responseText + ")");
+                        alert(error.Message);
+                    }
+                });
+    }
+
+
+    var hcolor='linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(13,37,63,0.30015756302521013) 100%, rgba(0,212,255,1) 100%)'
+    var selectColor='#01b4e4'
     
     function collapseAction(id,e){
         
         e.stopPropagation();
         var getId=id.split('_')[1]
-        
-        $(`.node`).css('background-color', hcolor);
+        alert(getId)
+        LoadFilesByFolder(getId)
+        $(`.node`).css('background', hcolor);
         $(`#${id}`).css('background-color', selectColor);
         var n=$(`#${id} #${getId}_subfolders`)
         
-        $(n).css('background-color', hcolor);
+        $(n).css('background', hcolor);
         if($(n).css('display')=='none'){
             console.log($(n).css('display'))
             $(n).show()
@@ -181,8 +308,7 @@
 
 
     function createFolder(){
-        var folderId=$( "#dropDownFolders option:selected").val();
-        alert(folderId)
+        var folderId=$( ".dropDownFolders  option:selected").val();
         var obj = new Object();
         obj.FolderName=$("#txtName").val()
         obj.FolderId=folderId!="No"?folderId:null
@@ -212,11 +338,11 @@
     function radioChange(value) {
         
         if (value == 'Main Folder') {
-            $("#dropDownFolders").prop("disabled",true)
-            $("#dropDownFolders").val("No");
+            $(".dropDownFolders ").prop("disabled",true)
+            $(".dropDownFolders ").val("No");
         }
         else if (value == 'Sub Folder') {
-           $("#dropDownFolders").prop("disabled",false)
+           $(".dropDownFolders ").prop("disabled",false)
         }
     }
 
@@ -227,6 +353,18 @@
 
 
 <style>
+
+    #filesBackground{
+         background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(13,37,63,0.30015756302521013) 100%, rgba(0,212,255,1) 100%);
+         width: 80%;
+         height:40vh;
+         margin-top:-40vh;
+         margin-left:2.7vw;
+         padding:3rem;
+         overflow:scroll;
+         color:#ffffff;
+         font-weight:bold;
+    }
 
     .btnClose{
         width: 2vw;
@@ -266,9 +404,9 @@
     }
 
     #otherSideBar{
-        background-color:#D6D7D2;
+        background:rgb(13,37,63);
         width:5%!important;
-        height:60vh;
+        height:80vh;
         display:block;
     }
 
@@ -279,9 +417,10 @@
    
 
     #sideBar{
-        background-color:#a9cbeb;
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(13,37,63,0.30015756302521013) 100%, rgba(0,212,255,1) 100%);
         width:80%!important;
-        height:60vh;
+        height:40vh;
+        overflow:scroll;
      
     }
 
