@@ -15,10 +15,10 @@ namespace Persistence.Configuration
         {
             entity.ToTable("FileObj");
             entity.HasKey(x => x.Id);
-            entity.Property(x => x.IdFolder);
-            entity.Property(x => x.FileName)
+            entity.Property(x => x.FolderId).HasColumnName("folderId");
+            entity.Property(x => x.FileName).HasColumnName("fileName")
                 .HasMaxLength(30);
-            entity.Property(x => x.Size);
+            entity.Property(x => x.Size).HasColumnName("size");
         }
     }
 }

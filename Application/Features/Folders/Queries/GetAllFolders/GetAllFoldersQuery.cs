@@ -19,13 +19,15 @@ namespace Application.Features.Folders.Queries.GetAllFolders
         public bool IncludeFiles { get; set; }
         public bool JustHierarchy { get; set; }
 
+        
+
         public class GetAllFoldersQueryHandler : IRequestHandler<GetAllFoldersQuery, Response<List<FolderDto>>>
         {
             private readonly IRepositoryAsync<Folder> _repositoryAsync;
             private readonly IMapper _mapper;
             private readonly ILogger<GetAllFoldersQuery> _logger;
 
-
+            public string Path = "D:/dynata";
             public GetAllFoldersQueryHandler(IRepositoryAsync<Folder> repositoryAsync,IMapper mapper,ILogger<GetAllFoldersQuery> logger)
             {
                 _repositoryAsync = repositoryAsync;
@@ -39,19 +41,9 @@ namespace Application.Features.Folders.Queries.GetAllFolders
                 {
                     var generations = await _repositoryAsync.CountAsync();
                     var entityList = await _repositoryAsync.ListAsync();
-                    foreach(var node in entityList)
-                    {
-                        List<Folder> childs = new List<Folder>();
-                        foreach(var child in entityList)
-                        {
-                            if (node.Id == child.FolderId)
-                            {
-                                childs.Add(child);
-                            }
-                        }
-                        node.SubFolders = childs;
-                    }
+                    IterationList(entityList);
                     entityList = entityList.Where(x => (bool)x.isSubFolder==false).ToList();
+                    IterationListAndSaveDirectories(entityList,null,Path);
                     var dtos = _mapper.Map<List<FolderDto>>(entityList);
                     return new Response<List<FolderDto>>(dtos);
 
@@ -62,9 +54,60 @@ namespace Application.Features.Folders.Queries.GetAllFolders
                 
             }
 
-           
+            public void IterationListAndSaveDirectories(List<Folder> entityList,Folder node,string path)
+            {
+                foreach (var _node in entityList)
+                {
+                    if (_node.Id != node?.Id)
+                    {
+                        _node.Url = path;
+                        _repositoryAsync.UpdateAsync(_node);
+                        path += $"/{_node.FolderName}";
+                        ValidateDirectory(path);
+                        if (_node.SubFolders.Count > 0) IterationListAndSaveDirectories(_node.SubFolders, _node,path);
+                        path = path.Replace($"/{_node.FolderName}", string.Empty);
+                    }
+                    else
+                    {
+                        node.Url = path;
+                        _repositoryAsync.UpdateAsync(_node);
+                    }
+                }
+            }
 
-         
+            public void IterationList(List<Folder> entityList)
+            {
+                foreach (var node in entityList)
+                {
+                    List<Folder> childs = new List<Folder>();
+                    
+                    foreach (var child in entityList)
+                    {
+                        if (node.Id == child.FolderId)
+                        {
+                            childs.Add(child);
+                            
+                        }
+                    }
+                    node.SubFolders = childs;
+                }
+            }
+
+            public void ValidateDirectory(string path)
+            {
+                if (Directory.Exists(path))
+                {
+                    Console.WriteLine("That path exists already.");
+                    return;
+                }
+                DirectoryInfo di = Directory.CreateDirectory(path);
+                
+
+            }
+
+
+
+
 
         }
 

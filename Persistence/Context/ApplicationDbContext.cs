@@ -15,7 +15,7 @@ namespace Persistence.Context
     {
         public readonly IDateTimeService _dateTime;
 
-        public DbSet<FileObj>? File { get; set; } = null;
+        public DbSet<FileObj>? FileObj { get; set; } = null;
 
         public DbSet<Folder>? Folder { get; set; } = null;
 

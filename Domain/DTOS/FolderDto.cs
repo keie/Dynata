@@ -15,5 +15,7 @@ namespace Domain.DTOS
         public string? FolderName { get; set; }
         public float? Size { get; set; }
         public bool isSubFolder { get; set; }
+
+        public string? Url { get; set; }
     }
 }

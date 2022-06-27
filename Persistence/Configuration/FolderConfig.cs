@@ -25,6 +25,8 @@ namespace Persistence.Configuration
             entity.Property(x => x.FolderName).HasColumnName("folderName")
                 .HasMaxLength(30);
 
+            entity.Property(x => x.Url).HasColumnName("url");
+
             entity.Property(x => x.Size).HasColumnName("size");
             entity.Property(x => x.isSubFolder).HasColumnName("isSubFolder");
             entity.HasMany(x => x.SubFolders)

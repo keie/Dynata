@@ -9,7 +9,7 @@ namespace Domain.DTOS
 {
     public class FileDto:BaseEntity
     {
-        public int? IdFolder { get; set; }
+        public int? FolderId { get; set; }
         public string? FileName { get; set; }
         public float Size { get; set; }
     }
