@@ -28,8 +28,8 @@ namespace Application.Features.Folders.Queries.GetAllFolders
             private readonly IMapper _mapper;
             private readonly ILogger<GetAllFoldersQuery> _logger;
             DirectorySecurity securityRules = new DirectorySecurity();
-
             public string Path = "D:/dynata";
+            public int Level = 1;
             public GetAllFoldersQueryHandler(IRepositoryAsync<Folder> repositoryAsync,IMapper mapper,ILogger<GetAllFoldersQuery> logger)
             {
                 _repositoryAsync = repositoryAsync;
@@ -42,7 +42,7 @@ namespace Application.Features.Folders.Queries.GetAllFolders
                 try
                 {
                     var generations = await _repositoryAsync.CountAsync();
-                    var entityList = await _repositoryAsync.ListAsync();
+                    var entityList = await _repositoryAsync.ListAsync(new FolderSpecification(request.IncludeFiles));
                     IterationList(entityList);
                     entityList = entityList.Where(x => (bool)x.isSubFolder==false).ToList();
                     IterationListAndSaveDirectories(entityList,null,Path);
@@ -63,11 +63,14 @@ namespace Application.Features.Folders.Queries.GetAllFolders
                     if (_node.Id != node?.Id)
                     {
                         _node.Url = path;
+                        _node.Level = Level;
                         _repositoryAsync.UpdateAsync(_node);
                         path += $"/{_node.FolderName}";
+                        Level++;
                         ValidateDirectory(path);
                         if (_node.SubFolders.Count > 0) IterationListAndSaveDirectories(_node.SubFolders, _node,path);
                         path = path.Replace($"/{_node.FolderName}", string.Empty);
+                        Level--;
                     }
                     else
                     {
@@ -102,18 +105,11 @@ namespace Application.Features.Folders.Queries.GetAllFolders
                     Console.WriteLine("That path exists already.");
                     return;
                 }
-               
                 securityRules.AddAccessRule(new FileSystemAccessRule("Users", FileSystemRights.Modify, AccessControlType.Allow));
                 DirectoryInfo di = Directory.CreateDirectory(path);
                 di.SetAccessControl(securityRules);
                 
-
             }
-
-
-
-
-
         }
 
     }

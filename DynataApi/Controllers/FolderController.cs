@@ -1,5 +1,6 @@
 ﻿using Application.Features.Folders.Commands.CreateFolderCommand;
 using Application.Features.Folders.Queries.GetAllFolders;
+using Application.Features.Folders.Queries.GetFoldersBy;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -22,6 +23,12 @@ namespace DynataApi.Controllers
         public async Task<IActionResult> Post(CreateFolderCommand command)
         {
             return Ok(await Mediator.Send(command));
+        }
+
+        [HttpGet("familyByFolderId")]
+        public async Task<IActionResult> Get([FromQuery] GetFamilyFoldersByIdParameters filter)
+        {
+            return Ok(await Mediator.Send(new GetFamilyFoldersByIdQuery { FolderFromId = filter.FolderFromId, FolderToId=filter.FolderToId,IncludeFiles=filter.IncludeFiles }));
         }
 
     }

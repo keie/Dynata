@@ -23,7 +23,7 @@
             </div>
         </div>
         <div>
-            <div class="divIcon tooltipx">
+            <div class="divIcon tooltipx" onclick="openForm('copy')">
                 <img src='https://cdn-icons-png.flaticon.com/512/1828/1828249.png' height=40 width=40/>
                 <span class="tooltiptext">Copy it</span>
             </div>
@@ -61,9 +61,9 @@
     
     <div class="modalCreation" style="display:none">
         <div style="display:flex">
-        <h1>Folder Creation</h1>
-        <button type="button" class="btnClose" onclick="closeForm()" style="width:2vw">X</button>
-    </div>
+            <h1>Folder Creation</h1>
+            <button type="button" class="btnClose" onclick="closeForm()" style="width:2vw">X</button>
+        </div>
         <div >
           <p>Please select the folder Type:</p>
           <input type="radio" id="mainFolder" name="fav_language" value="Main Folder" checked="checked" onchange="radioChange('Main Folder')">
@@ -96,6 +96,23 @@
             <button  class="btn" onclick="UploadFile()">Upload</button>
         </div>
     </div>
+     <div class="modalCopyFolder" style="display:none">
+        <div style="display:flex">
+            <h1>Folder Copy</h1>
+            <button type="button" class="btnClose" onclick="closeForm()" style="width:2vw">X</button>
+        </div>
+        
+        <label for="folders"><b>Folder From </b></label>
+        <select name="subFolders" class="dropDownFoldersCopyFrom"  >
+            <option value="No" selected="selected">No apply</option>
+        </select><br />
+        <label for="newFolder"><b>Folder Copy to...</b></label>
+        <select name="subFolders" class="dropDownFoldersCopyTo"  >
+            <option value="No" selected="selected">No apply</option>
+        </select><br />
+        <button  class="btn" onclick="copyFolder()">Copy</button>
+    </div>
+
    </div>
     
 </div>
@@ -106,9 +123,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 
+    
+    function copyFolder(){
+        var folderFromId=$( ".dropDownFoldersCopyFrom option:selected").val();
+        var folderToId=$( ".dropDownFoldersCopyTo option:selected").val();
+        console.log(folderFromId)
+        console.log(folderToId)
+    }
+    
     function UploadFile(){
         var folderId=$( ".dropDownFoldersToFile option:selected").val();
-        alert(folderId)
+       
         let formData = new FormData();
         formData.append("file", $('#filetToUpload')[0].files[0]);
         $.ajax({
@@ -134,14 +159,23 @@
 
     function openForm(value) {
         if(value=='create'){
+            $('.modalUploadFile').css('display','none')
+            $('.modalCopyFolder').css('display','none')
             document.getElementById("myForm").style.display = "block";
             $('.modalCreation').css('display','block')
             
         }
         if(value=='upload'){
+             $('.modalCreation').css('display','none')
+             $('.modalCopyFolder').css('display','none')
             document.getElementById("myForm").style.display = "block";
             $('.modalUploadFile').css('display','block')
-            
+        }
+        if(value=='copy'){
+            $('.modalUploadFile').css('display','none')
+            $('.modalCreation').css('display','none')
+             document.getElementById("myForm").style.display = "block";
+             $('.modalCopyFolder').css('display','block')
         }
         
     }
@@ -150,9 +184,7 @@
         $('.modalCreation').css('display','none')
         $('.modalUploadFile').css('display','none')
         document.getElementById("myForm").style.display = "none";
-
-
-
+        $('.modalCopyFolder').css('display','none')
     }
     
     LoadData()
@@ -166,6 +198,8 @@
             if(currentValue1.folderId==idFather){
                 $( ".dropDownFolders" ).append(`<option value=${currentValue1.id}>${link}${currentValue1.folderName}</option>`)
                 $( ".dropDownFoldersToFile" ).append(`<option value=${currentValue1.id}>${link}${currentValue1.folderName}</option>`)
+                $( ".dropDownFoldersCopyFrom" ).append(`<option value=${currentValue1.id}>${link}${currentValue1.folderName}</option>`)
+                $( ".dropDownFoldersCopyTo" ).append(`<option value=${currentValue1.id}>${link}${currentValue1.folderName}</option>`)
                 $(`#${dadId} #${idFather}_subfolders`).append(child)
                 
             }
@@ -184,6 +218,8 @@
             $( "#folders" ).append(node)
             $( ".dropDownFolders" ).append(`<option value=${currentValue1.id}>${currentValue1.folderName}</option>`)
             $( ".dropDownFoldersToFile" ).append(`<option value=${currentValue1.id}>${currentValue1.folderName}</option>`)
+            $( ".dropDownFoldersCopyFrom" ).append(`<option value=${currentValue1.id}>${currentValue1.folderName}</option>`)
+            $( ".dropDownFoldersCopyTo" ).append(`<option value=${currentValue1.id}>${currentValue1.folderName}</option>`)
             if(currentValue1.subFolders?.length>0){
                 GetChild(currentValue1.subFolders,`folder_${currentValue1.id}`,currentValue1.id)
             }
@@ -206,7 +242,9 @@
             success: function (result) {           
                 $("#folders").html("")
                 $( ".dropDownFolders" ).html(`<option value="No" selected="selected">No apply</option>`)
-                 $( ".dropDownFoldersToFile" ).html(`<option value="No" selected="selected">No apply</option>`)
+                $( ".dropDownFoldersToFile" ).html(`<option value="No" selected="selected">No apply</option>`)
+                $( ".dropDownFoldersCopyFrom" ).html(`<option value="No" selected="selected">No apply</option>`)
+                $( ".dropDownFoldersCopyTo" ).html(`<option value="No" selected="selected">No apply</option>`)
                 GetDads(result.data);
                         
              },
@@ -231,8 +269,6 @@
               .then(blob => {
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
-                console.log("url",url)
-                console.log("a",a)
                 a.style.display = 'none';
                 a.href = url;
                 // the filename you want
@@ -286,7 +322,6 @@
         
         e.stopPropagation();
         var getId=id.split('_')[1]
-        alert(getId)
         LoadFilesByFolder(getId)
         $(`.node`).css('background', hcolor);
         $(`#${id}`).css('background-color', selectColor);
@@ -428,6 +463,7 @@
         padding-top:5vh;
         display:block;
         width: 40%;
+        margin-left:1vw;
     }
 
     .container{

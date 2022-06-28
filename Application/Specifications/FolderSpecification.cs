@@ -13,15 +13,9 @@ namespace Application.Specifications
     public class FolderSpecification:Specification<Folder>,ISingleResultSpecification
     {
    
-        public FolderSpecification(bool includeSubFolders, bool  justHierarchy,int generations)
+        public FolderSpecification(bool includeFiles)
         {
-            if (includeSubFolders) Query.Include(x => x.SubFolders);
-
-            if (justHierarchy) Query.Where(x => x.isSubFolder != true);
-
-            
-            
-            
+            if (includeFiles) Query.Include(x => x.Files);
 
         }
     }

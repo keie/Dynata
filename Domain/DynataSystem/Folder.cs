@@ -16,6 +16,7 @@ namespace Domain.DynataSystem
         public decimal? Size { get; set; }
         public bool? isSubFolder { get; set; }
         public string? Url { get; set; }
+        public int? Level { get; set; }
 
 
 
