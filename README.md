@@ -2,12 +2,12 @@
 
 
 
-## Comenzando 🚀
+## Starting 🚀
 
 Proyect exam of Dynata
 
 
-### Pre-requisitos 📋
+### Pre-requeriments 📋
 
 
 
@@ -65,7 +65,7 @@ building
 
 building
 
-## Autores ✒️
+## Author ✒️
 
 _
 
